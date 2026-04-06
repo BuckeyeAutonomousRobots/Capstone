@@ -1,0 +1,65 @@
+# Keyboard teleop tuning for the Gazebo tabletop pick-and-place setup.
+# Restart the controller nodes after editing this file.
+
+keyboard_target_twist_teleop:
+  ros__parameters:
+    output_topic: /target_twist_states
+    frame_id: base_link
+    publish_rate_hz: 60.0
+    linear_speed: 0.16
+    angular_speed: 0.70
+    key_timeout_sec: 0.18
+    gripper_timeout_sec: 0.12
+    latch_gripper_commands: true
+    reset_pulse_sec: 0.25
+    speed_increment_ratio: 0.10
+    print_help_on_start: true
+
+target_twist_to_servo_cmd:
+  ros__parameters:
+    publish_rate_hz: 60.0
+    stale_timeout_sec: 0.25
+    require_tracked: true
+    auto_start_servo: true
+    start_on_reset_release: true
+
+target_twist_to_gripper_cmd:
+  ros__parameters:
+    publish_rate_hz: 30.0
+    speed_m_per_s: 0.03
+    min_pos: 0.0
+    max_pos: 0.025
+    initial_pos: 0.025
+    joint_count: 1
+    second_joint_negate: false
+    stale_timeout_sec: 0.25
+    require_tracked: true
+
+target_twist_reset_manager:
+  ros__parameters:
+    control_rate_hz: 40.0
+
+    # Reset "kick" when b is pressed
+    kick_velocities: [0.35, -0.18, -0.28, 0.18, -0.28, 0.0]
+    kick_duration_sec: 1.5
+
+    # Home pose after kick (radians): [pan, lift, elbow, wrist1, wrist2, wrist3]
+    home_joint_positions: [-1.5, -1.5, 1.5, 0.0, 0.0, 0.0]
+    home_kp: 1.2
+    home_max_vel: 0.60
+    home_tolerance: 0.03
+    home_timeout_sec: 8.0
+    settle_sec: 0.3
+
+    gripper_open_pos: 0.025
+    gripper_hold_open_sec: 0.6
+    gripper_joint_count: 1
+    gripper_second_joint_negate: false
+    min_reset_interval_sec: 2.5
+
+    # Cube reset target pose
+    reset_cube_with_ign_service: true
+    world_name: ur_hande_tabletop
+    cube_model_name: target_cube
+    cube_reset_pose_xyz: [0.60, 0.25, 0.023]
+    cube_reset_pose_xyzw: [0.0, 0.0, 0.0, 1.0]

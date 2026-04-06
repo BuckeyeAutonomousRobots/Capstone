@@ -1,0 +1,10 @@
+std_msgs/Header header
+bool tracked
+geometry_msgs/Pose pose
+float32 grip_value
+float32 trigger_value
+bool rotate_enable
+bool close_enable
+bool open_enable
+bool reset_enable
+string source

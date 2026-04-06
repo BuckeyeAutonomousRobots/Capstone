@@ -1,0 +1,15 @@
+services:
+  pick_place_gazebo:
+    build: .
+    container_name: pick_place_gazebo
+    ports:
+      - "6080:6080" # noVNC web client
+    volumes:
+      - ./src:/home/noah/ws_moveit/src
+      - ./simulation:/home/noah/ws_moveit/simulation
+    stdin_open: true
+    tty: true
+    environment:
+      - AUTO_COLCON_BUILD=0
+      - DISPLAY=:1
+    command: /start_desktop.sh
