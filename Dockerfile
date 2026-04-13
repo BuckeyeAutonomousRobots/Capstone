@@ -1,24 +1,33 @@
-FROM arm64v8/ros:humble-ros-base
-#FROM ros:humble-ros-base
+#FROM arm64v8/ros:humble-ros-base
+FROM ros:humble-ros-base
 
 
-RUN apt-get update && apt-get install -y \
-    git \
-    sudo \
-    build-essential \
-    xfce4 \
+# Faster mirror
+RUN sed -i 's|http://archive.ubuntu.com|http://us.archive.ubuntu.com|g' /etc/apt/sources.list
+
+# Core tools
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git sudo build-essential \
+    net-tools procps \
+    python3-colcon-common-extensions \
+    python3-numpy python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# GUI
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    xfce4-session \
+    xfce4-panel \
+    xfce4-settings \
     xfce4-terminal \
     dbus-x11 \
-    x11vnc \
     xvfb \
+    x11vnc \
     novnc \
     websockify \
-    xterm \
-    net-tools \
-    procps \
-    python3-colcon-common-extensions \
-    python3-numpy \
-    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# ROS + MoveIt + Gazebo
+RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-humble-xacro \
     ros-humble-tf2-ros \
     ros-humble-tf2-geometry-msgs \
@@ -34,6 +43,9 @@ RUN apt-get update && apt-get install -y \
     ros-humble-ros-gz-sim \
     ros-humble-gz-ros2-control \
     && rm -rf /var/lib/apt/lists/*
+
+RUN
+
 
 ARG USERNAME=noah
 ARG UID=1000
