@@ -12,4 +12,11 @@ services:
     environment:
       - AUTO_COLCON_BUILD=0
       - DISPLAY=:1
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
     command: /start_desktop.sh
